@@ -1,0 +1,22 @@
+{
+    "name": "ytdownloader",
+    "version": "1.0.0",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "dev": "node --watch --env-file=.env index.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "format": "prettier --write .",
+        "format:check": "prettier --check ."
+    },
+    "author": "Arnav",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "@distube/ytdl-core": "^4.16.12",
+        "express": "^5.1.0"
+    },
+    "devDependencies": {
+        "prettier": "^3.6.2"
+    }
+}
