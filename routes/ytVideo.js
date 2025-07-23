@@ -36,7 +36,7 @@ router.get('/info', async (req, res) => {
             return;
         }
 
-        const info = await ytdl.getBasicInfo(link);
+        const info = await ytdl.getBasicInfo(link, {agent});
 
         res.json({
             success: true,
@@ -65,7 +65,7 @@ router.get('/download', async (req, res) => {
             agent,
             quality: 'highestvideo',
         }).pipe(res);
-        
+
     } catch (error) {
         res.status(404).send('Video Not Found');
         console.log(error);
