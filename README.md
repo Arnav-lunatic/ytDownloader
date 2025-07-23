@@ -38,16 +38,32 @@ GET /api/videos/download?v=https://www.youtube.com/watch?v=dQw4w9WgXcQ
    ```sh
    npm install
    ```
-3. Start the server:
+3. Create a `.env` file (optional) for environment variables:
+   - Example:
+     ```env
+     YOUTUBE_COOKIE=your_cookie_string_here
+     PORT=8000
+     ```
+   - The `.env` file is ignored by git (see `.gitignore`).
+4. Start the server:
+   ```sh
+   npm start
+   ```
+   or for development:
    ```sh
    npm run dev
    ```
-   or
-   ```sh
-   node index.js
-   ```
 
 The server runs on [http://localhost:8000](http://localhost:8000) by default.
+
+## Deployment Note
+If you want to deploy this app on platforms like Render, make sure to add your YouTube cookies in the environment variables (`YOUTUBE_COOKIE`) for proper video access and downloads.
+
+## .gitignore
+This project ignores:
+- `node_modules` (dependencies)
+- `.env` (environment variables)
+- `.vscode` (editor settings)
 
 ## License
 ISC
