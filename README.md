@@ -59,6 +59,15 @@ The server runs on [http://localhost:8000](http://localhost:8000) by default.
 ## Deployment Note
 If you want to deploy this app on platforms like Render, make sure to add your YouTube cookies in the environment variables (`YOUTUBE_COOKIE`) for proper video access and downloads.
 
+## FFmpeg Installation for Deployment
+This app requires FFmpeg for video processing. The provided `render-build.sh` script automatically downloads and installs FFmpeg during deployment:
+
+```sh
+curl -sL https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz | tar xJ --strip-components=1 -C /usr/local/bin/ ffmpeg-*-amd64-static/ffmpeg
+```
+
+If deploying to platforms like Render, make sure your build script includes this step so FFmpeg is available to your app.
+
 ## .gitignore
 This project ignores:
 - `node_modules` (dependencies)
