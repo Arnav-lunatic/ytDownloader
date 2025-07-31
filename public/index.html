@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en" class="dark">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>YouTube Video Downloader</title>
+        <!-- Tailwind CSS for styling -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <!-- Google Fonts: Inter -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <!-- Font Awesome for icons -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+
+        <link rel="stylesheet" href="style.css" />
+
+        <script>
+            // Tailwind CSS dark mode configuration
+            tailwind.config = {
+                darkMode: 'class',
+            };
+        </script>
+    </head>
+    <body
+        class="bg-gray-100 text-gray-800 dark:text-gray-200 flex items-center justify-center min-h-screen p-4"
+    >
+        <div class="w-full max-w-2xl mx-auto">
+            <!-- Theme Switcher -->
+            <div class="absolute bottom-2 right-2 flex justify-end mb-4">
+                <button
+                    id="theme-switcher"
+                    class="dark:px-5 px-6 py-4 rounded-full bg-gray-200 dark:bg-zinc-700 text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 focus:ring-gray-500 theme-transition"
+                >
+                    <i class="fa-solid fa-sun text-lg hidden dark:inline"></i>
+                    <i class="fa-solid fa-moon text-lg inline dark:hidden"></i>
+                </button>
+            </div>
+
+            <div class="bg-white main-card shadow-xl rounded-2xl p-6 sm:p-8 theme-transition">
+                <h1
+                    class="text-3xl sm:text-4xl font-bold text-center mb-2 text-gray-900 dark:text-white"
+                >
+                    Video Downloader
+                </h1>
+                <p class="text-center text-gray-500 dark:text-gray-400 mb-8">
+                    Paste a YouTube link below to get started.
+                </p>
+
+                <!-- Input Form -->
+                <div class="flex flex-col sm:flex-row gap-3 mb-4">
+                    <div class="relative flex-grow">
+                        <i
+                            class="fa-solid fa-link absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"
+                        ></i>
+                        <input
+                            type="text"
+                            id="videoUrl"
+                            placeholder="https://www.youtube.com/watch?v=..."
+                            class="w-full bg-gray-100 input-field border-2 border-gray-300 dark:border-gray-700 rounded-xl py-3 pl-12 pr-20 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500 theme-transition"
+                        />
+                        <button
+                            id="pasteBtn"
+                            class="absolute right-2 top-1/2 -translate-y-1/2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 font-semibold py-1 px-3 rounded-lg text-sm transition-transform duration-200 active:scale-95 theme-transition"
+                        >
+                            Paste
+                        </button>
+                    </div>
+                    <button
+                        id="verifyBtn"
+                        class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-xl transition duration-200 flex items-center justify-center w-full sm:w-auto shrink-0 shadow-lg shadow-gray-500/10 hover:shadow-gray-500/20"
+                    >
+                        <span id="verifyBtnText">Verify</span>
+                        <div id="loader" class="spinner hidden ml-2"></div>
+                    </button>
+                </div>
+
+                <!-- Message Display -->
+                <div id="message" class="text-center h-5 my-4 transition-all duration-300"></div>
+
+                <!-- Video Info Display -->
+                <div
+                    id="videoInfo"
+                    class="hidden bg-gray-100/50 dark:bg-gray-800/50 rounded-xl p-4 mt-6"
+                >
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <img
+                            id="thumbnail"
+                            src="https://placehold.co/320x180/2C2C31/9ca3af?text=Thumbnail"
+                            onerror="this.onerror=null;this.src='https://placehold.co/320x180/e5e7eb/4b5563?text=Error';"
+                            alt="Video Thumbnail"
+                            class="w-full md:w-48 h-auto rounded-lg object-cover shadow-md bg-gray-200 dark:bg-gray-700"
+                        />
+                        <div class="flex flex-col justify-center flex-grow">
+                            <h2
+                                id="videoTitle"
+                                class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4"
+                            >
+                                Video Title Will Appear Here
+                            </h2>
+                            <a
+                                id="downloadBtn"
+                                href='#'
+                                class="flex gap-2 w-full text-center bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-xl transition duration-200 shadow-lg shadow-green-500/20 hover:shadow-green-500/30 pointer"
+                                download"
+                            >
+                                <div id="downloadLoader" class="spinner hidden ml-2"></div>
+                                <i id="downloadIcon" class="fa-solid fa-download mr-2"></i>
+                                Download
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="text-center mt-8 text-gray-500 dark:text-gray-400 text-sm">
+                <p>
+                    &copy; 2024 Your Site. Please ensure you have the rights to download the
+                    content.
+                </p>
+            </footer>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>

@@ -1,0 +1,61 @@
+/* Custom base styles */
+body {
+    font-family: 'Inter', sans-serif;
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+/* Applying custom dark theme colors */
+html.dark body {
+    background-color: #1b1b1f;
+}
+html.dark .main-card {
+    background-color: #2c2c31;
+}
+html.dark .input-field {
+    background-color: #26262a;
+}
+
+/* Custom class for theme transition on specific elements */
+.theme-transition {
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+/* Simple spinner animation */
+.spinner {
+    border: 3px solid transparent;
+    border-left-color: #6b7280; /* Gray-500 */
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+}
+
+html.dark .spinner {
+    border-left-color: #9ca3af; /* Gray-400 */
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}

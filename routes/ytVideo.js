@@ -36,13 +36,47 @@ router.get('/info', async (req, res) => {
             return;
         }
 
-        const info = await ytdl.getBasicInfo(link, {agent});
+        const info = await ytdl.getInfo(link, { agent });
+
+        let audioFormateList = [];
+        let videoFormateList = [];
+
+        info.formats
+            .filter((format) => format.hasAudio && format.hasVideo === false)
+            .forEach((format) => {
+                audioFormateList.push({
+                    itag: format.itag,
+                    bitRate: format.audioBitrate,
+                    type: format.mimeType,
+                });
+            });
+
+        info.formats
+            .filter((format) => format.hasVideo && format.container === 'mp4')
+            .forEach((format) => {
+                videoFormateList.push({
+                    itag: format.itag,
+                    quality: format.qualityLabel,
+                    type: format.mimeType,
+                });
+            });
+
+        console.log(audioFormateList);
+        console.log(videoFormateList);
 
         res.json({
             success: true,
             data: {
                 thumbnails: info.videoDetails.thumbnails,
                 title: info.videoDetails.title,
+                quality: [
+                    info.formats.filter(
+                        (format) =>
+                            format.hasVideo &&
+                            format.container === 'mp4' &&
+                            format.codecs.includes('av01.0.08M.08')
+                    ),
+                ],
             },
         });
     } catch (error) {
@@ -53,18 +87,19 @@ router.get('/info', async (req, res) => {
 
 router.get('/download', async (req, res) => {
     const link = req.query.v;
+    const videoQuality = req.query.videoQuality || 'highestvideo';
+    const audioQuality = req.query.videoQuality || 'highestaudio';
 
     try {
         const info = await ytdl.getBasicInfo(link);
 
         const title = info.videoDetails.title.replace(/[^\w\s]/gi, '');
 
-        res.header('Content-Disposition', `attachment; filename="${title}.mp4"`);
+        res.header('Content-Disposition', `attachment; filename="${title}"`);
 
-        ytdl(link, {
-            agent,
-            quality: 'highestvideo',
-        }).pipe(res);
+        ytdl(link, {agent, quality: videoQuality});
+        ytdl(link, {agent, quality: audioQuality});
+
 
     } catch (error) {
         res.status(404).send('Video Not Found');
