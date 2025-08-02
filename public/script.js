@@ -16,23 +16,6 @@ const audioDownloadBtn = document.getElementById('audioDownloadBtn');
 
 const mergeDownloadBtn = document.getElementById('mergeDownloadBtn');
 
-// --- IMPORTANT: API Configuration ---
-// Replace this with your actual API endpoint.
-// It should accept a 'url' query parameter with the YouTube video URL.
-// Example: https://your-api.com/getVideoInfo?url=ENCODED_YOUTUBE_URL
-//
-// Your API should return a JSON object with this structure on success:
-// {
-//   "success": true,
-//   "title": "The Video Title",
-//   "thumbnail": "https://image.url/thumbnail.jpg",
-//   "downloadUrl": "https://your-api.com/download?id=VIDEO_ID"
-// }
-// And this structure on failure:
-// {
-//   "success": false,
-//   "message": "Invalid YouTube URL"
-// }
 const API_BASE_URL = 'http://localhost:3000/api/videos';
 
 // --- Theme Switcher Logic ---
@@ -167,6 +150,7 @@ videoFormatSelector.addEventListener('change', () => {
 });
 
 const handleDownload = async (downloadBtn, action, itag) => {
+    downloadBtn.href = '#'; // Prevent default link behavior
     //loading true
     downloadBtn.disabled = true;
 

@@ -148,10 +148,7 @@ export const getMerge = async (req, res) => {
         const mergedStream = await mergeAudioVideoStream(videoStream, audioStream);
 
         mergedStream.pipe(res);
-        
-        mergedStream.on('end', () => {
-            res.end();
-        });
+
         mergedStream.on('error', (error) => {
             console.error('Error during merging streams:', error);
             res.status(500).send('Error processing video download');
@@ -176,6 +173,12 @@ export const getVideoOnly = async (req, res) => {
         const videoStream = ytdl(link, { agent, quality: itag });
 
         videoStream.pipe(res);
+
+        videoStream.on('error', (error) => {
+            console.error('Error during video stream:', error);
+            res.status(500).send('Error processing video download');
+        });
+
     } catch (error) {
         res.status(404).send('Video Not Found');
         console.log(error);
@@ -197,10 +200,6 @@ export const getAudioOnly = async (req, res) => {
 
         audioStream.pipe(res);
 
-        audioStream.on('end', () => {
-            res.send('download complete');
-            res.end();
-        });
         audioStream.on('error', (error) => {
             console.error('Error during audio stream:', error);
             res.status(500).send('Error processing audio download');
