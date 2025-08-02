@@ -9,9 +9,12 @@ const messageDiv = document.getElementById('message');
 const videoInfoDiv = document.getElementById('videoInfo');
 const thumbnailImg = document.getElementById('thumbnail');
 const videoTitle = document.getElementById('videoTitle');
-const downloadBtn = document.getElementById('downloadBtn');
-const downloadIcon = document.getElementById('downloadIcon');
-const downloadLoader = document.getElementById('downloadLoader');
+
+const videoDownloadBtn = document.getElementById('videoDownloadBtn');
+
+const audioDownloadBtn = document.getElementById('audioDownloadBtn');
+
+const mergeDownloadBtn = document.getElementById('mergeDownloadBtn');
 
 // --- IMPORTANT: API Configuration ---
 // Replace this with your actual API endpoint.
@@ -78,7 +81,7 @@ async function handleVerification() {
     }
 
     // Hide previous info and show loader
-    setLoading(true);
+    setVerifyLoading(true);
     videoInfoDiv.classList.add('hidden');
     messageDiv.textContent = '';
 
@@ -109,7 +112,7 @@ async function handleVerification() {
         videoInfoDiv.classList.add('hidden');
     } finally {
         // Always hide loader and re-enable button
-        setLoading(false);
+        setVerifyLoading(false);
     }
 }
 
@@ -124,31 +127,82 @@ function displayVideoInfo(data) {
     // Show the info card with an animation
     videoInfoDiv.classList.remove('hidden');
     videoInfoDiv.classList.add('animate-fade-in');
+
+    // Set the audio and video format selectors
+    const audioFormatSelector = document.getElementById('audioFormatSelector');
+    const videoFormatSelector = document.getElementById('videoFormatSelector');
+
+    audioFormatSelector.innerHTML = '';
+    videoFormatSelector.innerHTML = '';
+
+    // Populate audio formats
+    data.audioFormat.forEach((format) => {
+        const option = document.createElement('option');
+        option.value = format.itag;
+        option.textContent = `${format.bitRate}kbps (${format.codec}/${format.type})`;
+        audioFormatSelector.appendChild(option);
+    });
+
+    // Populate video formats
+    data.videoFormat.forEach((format) => {
+        const option = document.createElement('option');
+        option.value = format.itag;
+        option.textContent = `${format.quality} (${format.codec}/${format.type})`;
+        videoFormatSelector.appendChild(option);
+    });
+
+    audioItag = audioFormatSelector.value;
+    videoItag = videoFormatSelector.value;
 }
 
-const handleDownload = async () => {
+// Initialize format selectors
+let audioItag;
+let videoItag;
+
+audioFormatSelector.addEventListener('change', () => {
+    audioItag = audioFormatSelector.value;
+});
+videoFormatSelector.addEventListener('change', () => {
+    videoItag = videoFormatSelector.value;
+});
+
+const handleDownload = async (downloadBtn, action, itag) => {
     //loading true
     downloadBtn.disabled = true;
-    downloadIcon.classList.add('hidden');
-    downloadLoader.classList.remove('hidden');
+
+    downloadBtn.querySelector('i').classList.add('hidden');
+    downloadBtn.querySelector('.spinner').classList.remove('hidden');
+
     const url = videoUrlInput.value.trim();
 
-    downloadBtn.href = `${API_BASE_URL}/download?v=${encodeURIComponent(url)}`;
+    downloadBtn.href = `${API_BASE_URL}/${action}?v=${encodeURIComponent(url)}&${itag}`;
 
     setTimeout(() => {
         downloadBtn.disabled = false;
-        downloadIcon.classList.remove('hidden');
-        downloadLoader.classList.add('hidden');
+        downloadBtn.querySelector('i').classList.remove('hidden');
+        downloadBtn.querySelector('.spinner').classList.add('hidden');
     }, 5000);
 };
 
-downloadBtn.addEventListener('click', handleDownload);
+audioDownloadBtn.addEventListener('click', () =>
+    handleDownload(audioDownloadBtn, 'download-audio', `audioItag=${audioItag}`)
+);
+videoDownloadBtn.addEventListener('click', () =>
+    handleDownload(videoDownloadBtn, 'download-video', `videoItag=${videoItag}`)
+);
+mergeDownloadBtn.addEventListener('click', () =>
+    handleDownload(
+        mergeDownloadBtn,
+        'download-merge',
+        `audioItag=${audioItag}&videoItag=${videoItag}`
+    )
+);
 
 /**
  * Sets the loading state for the verify button.
  * @param {boolean} isLoading - Whether to show the loader.
  */
-function setLoading(isLoading) {
+function setVerifyLoading(isLoading) {
     if (isLoading) {
         verifyBtn.disabled = true;
         verifyBtnText.classList.add('hidden');

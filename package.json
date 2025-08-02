@@ -15,7 +15,8 @@
     "description": "",
     "dependencies": {
         "@distube/ytdl-core": "^4.16.12",
-        "express": "^5.1.0"
+        "express": "^5.1.0",
+        "ffmpeg-static": "^5.2.0"
     },
     "devDependencies": {
         "prettier": "^3.6.2"

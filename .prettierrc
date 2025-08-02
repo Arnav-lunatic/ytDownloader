@@ -8,7 +8,7 @@
     "bracketSpacing": true,
     "arrowParens": "always",
     "endOfLine": "lf",
-    "htmlWhitespaceSensitivity": "ignore",
+    "htmlWhitespaceSensitivity": "css",
     "jsxSingleQuote": false,
     "embeddedLanguageFormatting": "auto"
 }
